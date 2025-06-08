@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using HotelParadise.Entities;
 
 namespace HotelParadise.Controllers
 {
@@ -9,27 +10,50 @@ namespace HotelParadise.Controllers
     {
 
 
-        List<HotelParadise.Entities.Employee> Employees;
+        private List<HotelParadise.Entities.Employee> _Employees;
         public EmployeesController()
         {
-            Employees = new List<HotelParadise.Entities.Employee>();
-            Employees.Add(new HotelParadise.Entities.Employee { Id=1, Name = "Empleado1", position="Administrador", Phone="809-821-5154", Date_Admission=DateTime.Today});
-            Employees.Add(new HotelParadise.Entities.Employee { Id = 2, Name = "Empleado2", position = "Cajero", Phone = "829-821-5154", Date_Admission = DateTime.Today });
-            Employees.Add(new HotelParadise.Entities.Employee { Id = 3, Name = "Empleado3", position = "Tecnico", Phone = "849-821-5154", Date_Admission = DateTime.Today });
+            _Employees = new List<HotelParadise.Entities.Employee>();
+            _Employees.Add(new Employee { Id=1, Name = "Empleado1", position="Administrador", Phone="809-821-5154", Date_Admission=DateTime.Today});
+            _Employees.Add(new Employee { Id = 2, Name = "Empleado2", position = "Cajero", Phone = "829-821-5154", Date_Admission = DateTime.Today });
+            _Employees.Add(new Employee { Id = 3, Name = "Empleado3", position = "Tecnico", Phone = "849-821-5154", Date_Admission = DateTime.Today });
         }
 
         [HttpGet]
         public IActionResult GetEmployees()
         {
 
-            return Ok(new List<string> { "Employee1", "Employee2", "Employee3" });
+            return Ok(_Employees);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetEmployees(int id)
         {
+            //var Employee = new Employee();*/
 
-            return Ok($"Employee with ID: {id}");
+            //foreach (var item in _Employees)
+            //{
+            //    if (item.Id == id) 
+            //    {
+
+            //        Employee = item;
+            //        //return Ok(Employee);
+            //        break;
+
+            //    }
+            //}
+
+
+            //Employee = _Employees.FirstOrDefault(s => s.Id == id); The Way more used
+
+
+            var Employee = _Employees.Where(e => e.Id == id).FirstOrDefault();
+            if (Employee == null)
+            {
+                return NotFound($"Empleado con ID {id} no fue encontrado");
+            }
+
+            return Ok(Employee);
         }
     }
 }
