@@ -57,14 +57,47 @@ namespace HotelParadise.Controllers
         }
 
 
+      
         //POST
         [HttpPost]
 
-        public IActionResult PosEmployees(int Id, string Name, string Position, string Phone, DateTime Date_Admission)
+        public IActionResult PosEmployees([FromBody] Employee employee)
         {
+            if (employee.Position == null)
+            {
+                return BadRequest($"Cargo no puede ser nulo");
+            }
 
-        return BadRequest(); 
+            /*Id = _Employees.Max (e => e.Id) + 1; */     // Funciona, pero es pesada
+            employee.Id = _Employees.Count + 1;
+            employee.Date_Admission = DateTime.Now;
+            _Employees.Add(employee);
+            return Ok(_Employees);
         }
 
+        //PUT
+        [HttpPut]
+
+        public IActionResult PutEmployees([FromBody] Employee employee)
+        {
+            if (employee.Position == null || employee.Id != employee.Id)
+            {
+                return BadRequest("Cargo es nula o ID no coincide");
+            }
+
+            var existingEmployee = _Employees.FirstOrDefault(s=> s.Id == employee.Id);
+            if(existingEmployee == null)
+            {
+                return NotFound($" Empleado con ID {employee.Id} no fue encontrado");
+            }
+
+            existingEmployee.Name = employee.Name;
+            existingEmployee.Date_Admission = DateTime.Now;
+            //return Ok(existingEmployee);
+            return Ok(_Employees);
+
+        }
+
+        //DELETE
     }
 }
