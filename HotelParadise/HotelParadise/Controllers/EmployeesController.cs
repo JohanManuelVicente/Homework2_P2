@@ -14,11 +14,11 @@ namespace HotelParadise.Controllers
         public EmployeesController()
         {
             _Employees = new List<HotelParadise.Entities.Employee>();
-            _Employees.Add(new Employee { Id=1, Name = "Empleado1", position="Administrador", Phone="809-821-5154", Date_Admission=DateTime.Today});
-            _Employees.Add(new Employee { Id = 2, Name = "Empleado2", position = "Cajero", Phone = "829-821-5154", Date_Admission = DateTime.Today });
-            _Employees.Add(new Employee { Id = 3, Name = "Empleado3", position = "Tecnico", Phone = "849-821-5154", Date_Admission = DateTime.Today });
+            _Employees.Add(new Employee { Id=1, Name = "Empleado1", Position="Administrador", Phone="809-821-5154", Date_Admission=DateTime.Now });
+            _Employees.Add(new Employee { Id = 2, Name = "Empleado2", Position = "Cajero", Phone = "829-821-5154", Date_Admission = DateTime.Now });
+            _Employees.Add(new Employee { Id = 3, Name = "Empleado3", Position = "Tecnico", Phone = "849-821-5154", Date_Admission = DateTime.Now });
         }
-
+        //GET
         [HttpGet]
         public IActionResult GetEmployees()
         {
@@ -55,5 +55,16 @@ namespace HotelParadise.Controllers
 
             return Ok(Employee);
         }
+
+
+        //POST
+        [HttpPost]
+
+        public IActionResult PosEmployees(int Id, string Name, string Position, string Phone, DateTime Date_Admission)
+        {
+
+        return BadRequest(); 
+        }
+
     }
 }
