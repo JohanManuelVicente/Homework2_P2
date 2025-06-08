@@ -99,5 +99,19 @@ namespace HotelParadise.Controllers
         }
 
         //DELETE
+        [HttpDelete("{id}")]
+
+        public IActionResult DeleteEmployees(int id)
+        {
+            var employee = _Employees.FirstOrDefault(p => p.Id == id);
+            if(employee == null)
+            {
+                return NotFound($"Empleado con ID: {id} no fue encontrado");
+            }
+
+            _Employees.Remove(employee);
+            //return NoContent();
+            return Ok(_Employees);
+        }
     }
 }
