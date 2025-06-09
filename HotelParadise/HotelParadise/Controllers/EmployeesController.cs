@@ -75,28 +75,55 @@ namespace HotelParadise.Controllers
             return Ok(_Employees);
         }
 
-        //PUT
-        [HttpPut]
+        /*PUT // Way Classic
+        //[HttpPut]
 
-        public IActionResult PutEmployees([FromBody] Employee employee)
+        //public IActionResult PutEmployees([FromBody] Employee employee)
+        //{
+        //    if (employee.Position == null)
+        //    {
+        //        return BadRequest("Cargo es nulo o ID no coincide");
+        //    }
+
+        //    var existingEmployee = _Employees.FirstOrDefault(s=> s.Id == employee.Id);
+        //    if(existingEmployee == null)
+        //    {
+        //        return NotFound($" Empleado con ID {employee.Id} no fue encontrado");
+        //    }
+
+        //    existingEmployee.Name = employee.Name;
+        //    existingEmployee.Date_Admission = DateTime.Now;
+        //    existingEmployee.Position = employee.Position;
+        //    existingEmployee.Phone = employee.Phone;
+        //    //return Ok(existingEmployee);
+        //    return Ok(_Employees);
+
+        //}*/   // Way Classic
+
+        //PUT // Way Standart
+        [HttpPut("{id}")]
+
+        public IActionResult PutEmployees(int id, [FromBody] Employee employee)
         {
-            if (employee.Position == null || employee.Id != employee.Id)
+            if (employee.Position == null || employee.Id != id)
             {
-                return BadRequest("Cargo es nula o ID no coincide");
+                return BadRequest("Cargo es nulo o ID no coincide");
             }
 
-            var existingEmployee = _Employees.FirstOrDefault(s=> s.Id == employee.Id);
-            if(existingEmployee == null)
+            var existingEmployee = _Employees.FirstOrDefault(s => s.Id == employee.Id);
+            if (existingEmployee == null)
             {
                 return NotFound($" Empleado con ID {employee.Id} no fue encontrado");
             }
 
             existingEmployee.Name = employee.Name;
             existingEmployee.Date_Admission = DateTime.Now;
+            existingEmployee.Position = employee.Position;
+            existingEmployee.Phone = employee.Phone;
             //return Ok(existingEmployee);
             return Ok(_Employees);
 
-        }
+        } // Way Standart
 
         //DELETE
         [HttpDelete("{id}")]

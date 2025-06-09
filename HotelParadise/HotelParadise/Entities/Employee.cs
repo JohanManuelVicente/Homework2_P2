@@ -10,7 +10,7 @@ namespace HotelParadise.Entities
         //[Column("Name_Employees")]
         public string? Name {get; set;}
 
-        public string? Position {get; set;}
+        public string Position {get; set;}
 
         public string? Phone {get; set;}
 
