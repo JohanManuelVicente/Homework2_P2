@@ -102,7 +102,6 @@ namespace HotelParadise.Controllers
 
         //PUT // Way Standart
         [HttpPut("{id}")]
-
         public IActionResult PutEmployees(int id, [FromBody] Employee employee)
         {
             if (employee.Position == null || employee.Id != id)
