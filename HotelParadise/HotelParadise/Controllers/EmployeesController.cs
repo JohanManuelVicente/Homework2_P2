@@ -181,8 +181,11 @@ namespace HotelParadise.Controllers
             }
 
             _context.Employees.Remove(employee);
+            _context.SaveChanges();
             return NoContent();
             
+
+
         }
     }
 }
