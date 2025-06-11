@@ -15,10 +15,10 @@ namespace HotelParadise.Entities
         public string? Phone {get; set;}
 
         public DateTime Date_Admission { get; set; }
+            
+        public int AdministrationId { get; set; }
 
-        public int DepartmentId { get; set; }
-
-        public virtual Administration? Department { get; set; }
+        //public virtual Administration? Administration { get; set; }
 
     }
 }

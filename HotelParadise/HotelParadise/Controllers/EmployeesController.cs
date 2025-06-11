@@ -12,10 +12,10 @@ namespace HotelParadise.Controllers
     {
 
 
-        private List<Employee> _Employees;
-        private List<Administration> _Administration;
+        //private List<Employee> _Employees;
+        //private List<Administration> _Administration;
 
-        HotelParadiseDBContext context;
+        private readonly HotelParadiseDBContext _context;
         public EmployeesController(HotelParadiseDBContext context)
         {
             /*_Departments = new List<Administration>
@@ -31,16 +31,16 @@ namespace HotelParadise.Controllers
         //    _Employees.Add(new Employee { Id = 3, Name = "Empleado3", Position = "Tecnico", Phone = "849-821-5154", Date_Admission = DateTime.Now });
         */
 
-            this.context = context;
-            _Employees = context.Employees.ToList();
-            _Administration = context.Administration.ToList();
+            _context = context;
+            //_Employees = context.Employees.ToList();
+            //_Administration = context.Administration.ToList();
         }
         //GET
         [HttpGet]
         public IActionResult GetEmployees()
         {
-
-            return Ok(_Employees);
+            var Employees = _context.Employees.ToList();
+            return Ok(Employees);
         }
 
         [HttpGet("{id}")]
@@ -64,7 +64,7 @@ namespace HotelParadise.Controllers
             //Employee = _Employees.FirstOrDefault(s => s.Id == id); The Way more used
 
 
-            var Employee = _Employees.Where(e => e.Id == id).FirstOrDefault();
+            var Employee = _context.Employees.Where(e => e.Id == id).FirstOrDefault();
             if (Employee == null)
             {
                 return NotFound($"Empleado con ID {id} no fue encontrado");
@@ -85,18 +85,19 @@ namespace HotelParadise.Controllers
                 return BadRequest($"Cargo no puede ser nulo");
             }
 
-            var dept = _Administration.FirstOrDefault(d => d.Id == employee.DepartmentId);
+            var dept = _context.Administration.FirstOrDefault(d => d.Id == employee.AdministrationId);
             if (dept == null)
             {
                 return BadRequest("Departamento inválido");
             }
 
             /*Id = _Employees.Max (e => e.Id) + 1; */     // Funciona, pero es pesada
-            employee.Id = _Employees.Count + 1;
+           
             employee.Date_Admission = DateTime.Now;
-            employee.Department = dept;
-            _Employees.Add(employee);
-            return Ok(_Employees);
+            //employee.Department = dept;
+            _context.Add(employee);
+            _context.SaveChanges();
+            return Ok(employee);
         }
 
         /*PUT // Way Classic
@@ -142,13 +143,13 @@ namespace HotelParadise.Controllers
                 return BadRequest("Cargo es nulo o ID no coincide");
             }
 
-            var existingEmployee = _Employees.FirstOrDefault(s => s.Id == employee.Id);
+            var existingEmployee = _context.Employees.FirstOrDefault(s => s.Id == employee.Id);
             if (existingEmployee == null)
             {
                 return NotFound($" Empleado con ID {employee.Id} no fue encontrado");
             }
 
-            var dept = _Administration.FirstOrDefault(d => d.Id == employee.DepartmentId);
+            var dept = _context.Administration.FirstOrDefault(d => d.Id == employee.AdministrationId);
             if (dept == null)
             {
                 return BadRequest("Departamento inválido");
@@ -157,12 +158,14 @@ namespace HotelParadise.Controllers
             existingEmployee.Name = employee.Name;
             existingEmployee.Date_Admission = DateTime.Now;
             existingEmployee.Position = employee.Position;
-            existingEmployee.DepartmentId = employee.DepartmentId;
+            existingEmployee.AdministrationId = employee.AdministrationId;
             existingEmployee.Phone = employee.Phone;
-            existingEmployee.DepartmentId = employee.DepartmentId;
-            existingEmployee.Department = dept;
+            existingEmployee.AdministrationId = employee.AdministrationId;
+            //existingEmployee.Department = dept;
+            _context.Employees.Update(existingEmployee);
+            _context.SaveChanges();
             //return Ok(existingEmployee);
-            return Ok(_Employees);
+            return Ok(existingEmployee);
 
         } // Way Standart
 
@@ -171,15 +174,15 @@ namespace HotelParadise.Controllers
 
         public IActionResult DeleteEmployees(int id)
         {
-            var employee = _Employees.FirstOrDefault(p => p.Id == id);
+            var employee = _context.Employees.FirstOrDefault(p => p.Id == id);
             if(employee == null)
             {
                 return NotFound($"Empleado con ID: {id} no fue encontrado");
             }
 
-            _Employees.Remove(employee);
-            //return NoContent();
-            return Ok(_Employees);
+            _context.Employees.Remove(employee);
+            return NoContent();
+            
         }
     }
 }
