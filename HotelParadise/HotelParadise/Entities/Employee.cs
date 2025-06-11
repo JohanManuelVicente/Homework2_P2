@@ -2,7 +2,7 @@
 
 namespace HotelParadise.Entities
 {
-   /* [Table("Employees")] */// eso es para el mapeo que coincida con el nombre en la DB
+    [Table("Employees")] 
     public class Employee
     {
         //[Column("Id_Employees")]

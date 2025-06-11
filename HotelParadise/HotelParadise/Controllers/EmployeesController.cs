@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using HotelParadise.Entities;
+using HotelParadise.Data;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace HotelParadise.Controllers
 {
@@ -10,21 +12,28 @@ namespace HotelParadise.Controllers
     {
 
 
-        private List<HotelParadise.Entities.Employee> _Employees;
-        private List<Administration> _Departments;
-        public EmployeesController()
+        private List<Employee> _Employees;
+        private List<Administration> _Administration;
+
+        HotelParadiseDBContext context;
+        public EmployeesController(HotelParadiseDBContext context)
         {
-            _Departments = new List<Administration>
-            {
-                new Administration { Id = 1, Department = "Administración", Email = "admin@hotel.com", Phone = "809-000-0000" },
-                new Administration { Id = 2, Department = "Recursos Humanos", Email = "rh@hotel.com", Phone = "809-111-1111" }
-            };
+            /*_Departments = new List<Administration>
+            //{
+            //    new Administration { Id = 1, Department = "Administración", Email = "admin@hotel.com", Phone = "809-000-0000" },
+            //    new Administration { Id = 2, Department = "Recursos Humanos", Email = "rh@hotel.com", Phone = "809-111-1111" }
+            //};
 
 
-            _Employees = new List<HotelParadise.Entities.Employee>();
-            _Employees.Add(new Employee { Id=1, Name = "Empleado1", Position="Administrador", Phone="809-821-5154", Date_Admission=DateTime.Now });
-            _Employees.Add(new Employee { Id = 2, Name = "Empleado2", Position = "Cajero", Phone = "829-821-5154", Date_Admission = DateTime.Now });
-            _Employees.Add(new Employee { Id = 3, Name = "Empleado3", Position = "Tecnico", Phone = "849-821-5154", Date_Admission = DateTime.Now });
+        //    _Employees = new List<Employee>();
+        //    _Employees.Add(new Employee { Id=1, Name = "Empleado1", Position="Administrador", Phone="809-821-5154", Date_Admission=DateTime.Now });
+        //    _Employees.Add(new Employee { Id = 2, Name = "Empleado2", Position = "Cajero", Phone = "829-821-5154", Date_Admission = DateTime.Now });
+        //    _Employees.Add(new Employee { Id = 3, Name = "Empleado3", Position = "Tecnico", Phone = "849-821-5154", Date_Admission = DateTime.Now });
+        */
+
+            this.context = context;
+            _Employees = context.Employees.ToList();
+            _Administration = context.Administration.ToList();
         }
         //GET
         [HttpGet]
@@ -76,7 +85,7 @@ namespace HotelParadise.Controllers
                 return BadRequest($"Cargo no puede ser nulo");
             }
 
-            var dept = _Departments.FirstOrDefault(d => d.Id == employee.DepartmentId);
+            var dept = _Administration.FirstOrDefault(d => d.Id == employee.DepartmentId);
             if (dept == null)
             {
                 return BadRequest("Departamento inválido");
@@ -139,7 +148,7 @@ namespace HotelParadise.Controllers
                 return NotFound($" Empleado con ID {employee.Id} no fue encontrado");
             }
 
-            var dept = _Departments.FirstOrDefault(d => d.Id == employee.DepartmentId);
+            var dept = _Administration.FirstOrDefault(d => d.Id == employee.DepartmentId);
             if (dept == null)
             {
                 return BadRequest("Departamento inválido");

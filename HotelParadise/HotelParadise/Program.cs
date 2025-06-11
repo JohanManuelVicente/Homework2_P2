@@ -1,4 +1,10 @@
+using HotelParadise.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<HotelParadiseDBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MainConnection")));
 
 // Add services to the container.
 

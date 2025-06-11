@@ -1,6 +1,8 @@
-﻿namespace HotelParadise.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HotelParadise.Entities
 {
-    /* [Table("Employees")] */// eso es para el mapeo que coincida con el nombre en la DB
+    [Table("Administration")]
     public class Administration
     {
         public int Id { get; set; }
