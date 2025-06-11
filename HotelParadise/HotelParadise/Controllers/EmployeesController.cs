@@ -105,12 +105,20 @@ namespace HotelParadise.Controllers
         //    {
         //        return NotFound($" Empleado con ID {employee.Id} no fue encontrado");
         //    }
+          var dept = _Departments.FirstOrDefault(d => d.Id == employee.DepartmentId);
+            if (dept == null)
+            {
+                return BadRequest("Departamento inválido");
+            }
 
         //    existingEmployee.Name = employee.Name;
         //    existingEmployee.Date_Admission = DateTime.Now;
         //    existingEmployee.Position = employee.Position;
         //    existingEmployee.DepartmentId = employee.DepartmentId;
         //    existingEmployee.Phone = employee.Phone;
+        existingEmployee.DepartmentId = employee.DepartmentId;
+            existingEmployee.Department = dept;
+
         //    //return Ok(existingEmployee);
         //    return Ok(_Employees);
 
@@ -131,11 +139,19 @@ namespace HotelParadise.Controllers
                 return NotFound($" Empleado con ID {employee.Id} no fue encontrado");
             }
 
+            var dept = _Departments.FirstOrDefault(d => d.Id == employee.DepartmentId);
+            if (dept == null)
+            {
+                return BadRequest("Departamento inválido");
+            }
+
             existingEmployee.Name = employee.Name;
             existingEmployee.Date_Admission = DateTime.Now;
             existingEmployee.Position = employee.Position;
             existingEmployee.DepartmentId = employee.DepartmentId;
             existingEmployee.Phone = employee.Phone;
+            existingEmployee.DepartmentId = employee.DepartmentId;
+            existingEmployee.Department = dept;
             //return Ok(existingEmployee);
             return Ok(_Employees);
 
