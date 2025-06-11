@@ -10,11 +10,15 @@ namespace HotelParadise.Entities
         //[Column("Name_Employees")]
         public string? Name {get; set;}
 
-        public required string Position {get; set;}
+        public string Position {get; set;}
 
         public string? Phone {get; set;}
 
         public DateTime Date_Admission { get; set; }
+
+        public int DepartmentId { get; set; }
+
+        public virtual Admintration Department { get; set; }
 
     }
 }
