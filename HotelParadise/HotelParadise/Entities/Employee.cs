@@ -18,7 +18,7 @@ namespace HotelParadise.Entities
 
         public int DepartmentId { get; set; }
 
-        public virtual Admintration Department { get; set; }
+        public virtual Administration? Department { get; set; }
 
     }
 }

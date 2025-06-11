@@ -11,8 +11,16 @@ namespace HotelParadise.Controllers
 
 
         private List<HotelParadise.Entities.Employee> _Employees;
+        private List<Administration> _Departments;
         public EmployeesController()
         {
+            _Departments = new List<Administration>
+            {
+                new Administration { Id = 1, Department = "Administración", Email = "admin@hotel.com", Phone = "809-000-0000" },
+                new Administration { Id = 2, Department = "Recursos Humanos", Email = "rh@hotel.com", Phone = "809-111-1111" }
+            };
+
+
             _Employees = new List<HotelParadise.Entities.Employee>();
             _Employees.Add(new Employee { Id=1, Name = "Empleado1", Position="Administrador", Phone="809-821-5154", Date_Admission=DateTime.Now });
             _Employees.Add(new Employee { Id = 2, Name = "Empleado2", Position = "Cajero", Phone = "829-821-5154", Date_Admission = DateTime.Now });
@@ -68,9 +76,16 @@ namespace HotelParadise.Controllers
                 return BadRequest($"Cargo no puede ser nulo");
             }
 
+            var dept = _Departments.FirstOrDefault(d => d.Id == employee.DepartmentId);
+            if (dept == null)
+            {
+                return BadRequest("Departamento inválido");
+            }
+
             /*Id = _Employees.Max (e => e.Id) + 1; */     // Funciona, pero es pesada
             employee.Id = _Employees.Count + 1;
             employee.Date_Admission = DateTime.Now;
+            employee.Department = dept;
             _Employees.Add(employee);
             return Ok(_Employees);
         }
@@ -94,6 +109,7 @@ namespace HotelParadise.Controllers
         //    existingEmployee.Name = employee.Name;
         //    existingEmployee.Date_Admission = DateTime.Now;
         //    existingEmployee.Position = employee.Position;
+        //    existingEmployee.DepartmentId = employee.DepartmentId;
         //    existingEmployee.Phone = employee.Phone;
         //    //return Ok(existingEmployee);
         //    return Ok(_Employees);
@@ -118,6 +134,7 @@ namespace HotelParadise.Controllers
             existingEmployee.Name = employee.Name;
             existingEmployee.Date_Admission = DateTime.Now;
             existingEmployee.Position = employee.Position;
+            existingEmployee.DepartmentId = employee.DepartmentId;
             existingEmployee.Phone = employee.Phone;
             //return Ok(existingEmployee);
             return Ok(_Employees);
