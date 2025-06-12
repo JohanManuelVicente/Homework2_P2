@@ -5,9 +5,9 @@ namespace HotelParadise.Entities
     [Table("Employees")] 
     public class Employee
     {
-        //[Column("Id_Employees")]
+        
         public int Id { get; set; }
-        //[Column("Name_Employees")]
+       
         public string? Name {get; set;}
 
         public string? Position {get; set;}
